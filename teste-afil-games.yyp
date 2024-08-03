@@ -7,6 +7,7 @@
     {"id":{"name":"fnt_cursor","path":"fonts/fnt_cursor/fnt_cursor.yy",},"order":1,},
     {"id":{"name":"rm_gameplay","path":"rooms/rm_gameplay/rm_gameplay.yy",},"order":1,},
     {"id":{"name":"fnt_menu","path":"fonts/fnt_menu/fnt_menu.yy",},"order":0,},
+    {"id":{"name":"obj_back_btn","path":"objects/obj_back_btn/obj_back_btn.yy",},"order":1,},
     {"id":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},"order":0,},
   ],
   "Options": [
