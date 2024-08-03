@@ -12,7 +12,11 @@ var _array = open_settings_menu ? settings_menu_options : main_menu_options,
 	_y			 = (display_get_gui_height() * 0.5) - (_menu_heigth * 0.5);
 				   
 //DESENHANDO O MENU
-draw_menu(_x, _y, _array);
+if(show_popup) {
+	draw_exit_popup(_x, display_get_gui_height() * 0.5);
+} else {
+	draw_menu(_x, _y, _array);
+}
 
 //NAVEGAÇÃO COM O TECLADO
 menu_keyboard_navigation(_array);

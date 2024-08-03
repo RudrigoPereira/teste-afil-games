@@ -8,6 +8,7 @@ cursor				  = 0;
 open_settings_menu	  = false;
 settings_menu_options = ["Volume", "Tela Cheia", "Voltar"];
 show_popup			  = false;	
+exit_options		  = ["Sim", "Não"];
 		   
 #region FUNÇÕES
 
@@ -74,7 +75,10 @@ menu_keyboard_navigation = function(_array) {
 	
 	//seleção do menu
 	if(_enter){
-		if(!open_settings_menu) main_menu_selection();
+		if(!open_settings_menu) {
+			if(show_popup) exit_popup_selection();
+			else main_menu_selection();
+		}
 	}
 }
 
@@ -96,6 +100,32 @@ main_menu_selection = function() {
 			
 		default:
 			break;
+	}
+}
+
+draw_exit_popup = function(_x, _y) {
+	var _padding = 150,
+		_x1		 = _x - _padding,
+		_y1		 = _y - _padding,
+		_x2		 = _x + _padding,
+		_y2		 = _y + _padding;
+	
+    draw_roundrect(_x1, _y1, _x2, _y2, true);
+	draw_set_color(c_dkgray);
+    draw_roundrect(_x1, _y1, _x2, _y2, false);
+    draw_set_color(c_white);
+	draw_set_font(fnt_menu);
+    draw_text(_x, _y - (spacing * 1.5), "Você deseja sair?");
+	draw_menu(_x, _y + (spacing * 0.5), exit_options);
+}
+
+exit_popup_selection = function() {
+	if(cursor == 0) {
+		game_end();
+	}
+	else {
+		show_popup = false;
+		cursor = 2;
 	}
 }
 
