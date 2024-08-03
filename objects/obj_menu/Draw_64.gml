@@ -42,6 +42,15 @@ for(var _i = 0; _i < array_length(main_menu_options); _i++) {
 	}
 }
 
+//VARIÁVEIS LOCAIS DO TECLADO
+var _up		= keyboard_check_pressed(vk_up),
+	_down	= keyboard_check_pressed(vk_down);
+
+//navegação com o teclado
+if(_up) cursor -= 1;
+if(_down) cursor += 1;
+cursor = clamp(cursor, 0, array_length(main_menu_options) - 1);
+
 //RESETANDO OS DRAW SET
 draw_set_halign(-1);
 draw_set_valign(-1);
