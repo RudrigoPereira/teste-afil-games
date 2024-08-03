@@ -9,6 +9,13 @@ open_settings_menu	  = false;
 settings_menu_options = ["Volume", "Tela Cheia", "Voltar"];
 show_popup			  = false;	
 exit_options		  = ["Sim", "Não"];
+open_music_volume	  = false;
+
+ini_open("savedata.ini");
+//music_volume  = ini_read_real("settings", "music_volume", audio_sound_get_gain());
+is_fullscreen = ini_read_real("settings", "isFullscreen", window_get_fullscreen());
+ini_close();
+window_set_fullscreen(is_fullscreen);
 		   
 #region FUNÇÕES
 
@@ -46,12 +53,18 @@ menu_mouse_navigation = function(_x1, _y1, _x2, _y2, _index) {
 		_mouse_y		 = device_mouse_y_to_gui(0),
 		_mouse_on_option = point_in_rectangle(_mouse_x, _mouse_y, _x1, _y1, _x2, _y2),
 		_left_btn = mouse_check_button_pressed(mb_left);
-			
+	
+	//seleção do menu
 	if(_mouse_on_option) {
 		cursor = _index;
 
 		if(_left_btn) {
-			if(!open_settings_menu) main_menu_selection();
+			if(!open_settings_menu) {
+				if(show_popup) exit_popup_selection();
+				else main_menu_selection();
+			} else {
+				settings_menu_selection();
+			}
 		}
 	}
 }
@@ -78,6 +91,8 @@ menu_keyboard_navigation = function(_array) {
 		if(!open_settings_menu) {
 			if(show_popup) exit_popup_selection();
 			else main_menu_selection();
+		} else {
+			settings_menu_selection();
 		}
 	}
 }
@@ -99,6 +114,25 @@ main_menu_selection = function() {
 			break;
 			
 		default:
+			break;
+	}
+}
+
+settings_menu_selection = function() {
+	switch(cursor) {
+		case 0: //Volume
+			open_music_volume = !open_music_volume;
+			break;
+		case 1: //Tela Cheia
+			is_fullscreen = !is_fullscreen
+			window_set_fullscreen(is_fullscreen);
+			ini_open("savedata.ini");
+			ini_write_real("settings", "isFullscreen", is_fullscreen);
+			ini_close();
+			break;
+		case 2: //Voltar
+			open_settings_menu = false;
+			cursor = 1;
 			break;
 	}
 }
