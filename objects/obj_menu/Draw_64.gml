@@ -13,14 +13,8 @@ var _menu_heigth = (array_length(main_menu_options) - 1) * spacing,
 //DESENHANDO O MENU
 draw_menu(_x, _y, main_menu_options);
 
-//VARIÁVEIS LOCAIS DO TECLADO
-var _up		= keyboard_check_pressed(vk_up),
-	_down	= keyboard_check_pressed(vk_down);
-
-//navegação com o teclado
-if(_up) cursor -= 1;
-if(_down) cursor += 1;
-cursor = clamp(cursor, 0, array_length(main_menu_options) - 1);
+//NAVEGAÇÃO COM O TECLADO
+menu_keyboard_navigation(main_menu_options);
 
 //RESETANDO OS DRAW SET
 draw_set_halign(-1);

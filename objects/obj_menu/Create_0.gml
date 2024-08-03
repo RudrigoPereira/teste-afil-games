@@ -3,10 +3,11 @@
 
 //VARIÁVEIS DO OBJETO
 main_menu_options = ["Jogar", "Configurações", "Sair"];
+spacing			  = 50;
 cursor			  = 0;
-spacing = 50;
-
+		   
 #region FUNÇÕES
+
 draw_menu = function(_x, _y, _array) {				   
 	for(var _i = 0; _i < array_length(_array); _i++) {
 		draw_set_font(fnt_cursor);
@@ -30,12 +31,33 @@ draw_menu = function(_x, _y, _array) {
 		_y += spacing;
 	
 		//navegação com o mouse
-		var _mouse_x = device_mouse_x_to_gui(0),
-			_mouse_y = device_mouse_y_to_gui(0);
-			
-		if(point_in_rectangle(_mouse_x, _mouse_y, _x1, _y1, _x2, _y2)){
-			cursor = _i;
-		}
+		menu_mouse_navigation(_x1, _y1, _x2, _y2, _i);
 	}
 }
+
+menu_mouse_navigation = function(_x1, _y1, _x2, _y2, _index) {
+	var _mouse_x		 = device_mouse_x_to_gui(0),
+		_mouse_y		 = device_mouse_y_to_gui(0),
+		_mouse_on_option = point_in_rectangle(_mouse_x, _mouse_y, _x1, _y1, _x2, _y2);
+			
+	if(_mouse_on_option) cursor = _index;
+}
+
+menu_keyboard_navigation = function(_array) {
+	var _up	  = keyboard_check_pressed(vk_up) || keyboard_check_pressed(ord("W")),
+		_down = keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"));
+
+	if(_up) cursor -= 1;
+	if(_down) cursor += 1;
+	cursor = clamp(cursor, 0, array_length(_array) - 1);
+	
+	/*
+		Caso queira um efeito de carrossel no menu descomente o código abaixo
+		E comente a linha anterior com a função CLAMP
+	*/
+	
+	//if (cursor < 0) cursor = array_length(_array) - 1;
+	//if (cursor >= array_length(_array)) cursor = 0;
+}
+
 #endregion
