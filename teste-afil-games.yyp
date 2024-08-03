@@ -5,6 +5,7 @@
   "resources": [
     {"id":{"name":"obj_menu","path":"objects/obj_menu/obj_menu.yy",},"order":0,},
     {"id":{"name":"fnt_cursor","path":"fonts/fnt_cursor/fnt_cursor.yy",},"order":1,},
+    {"id":{"name":"rm_gameplay","path":"rooms/rm_gameplay/rm_gameplay.yy",},"order":1,},
     {"id":{"name":"fnt_menu","path":"fonts/fnt_menu/fnt_menu.yy",},"order":0,},
     {"id":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},"order":0,},
   ],
@@ -27,6 +28,7 @@
   },
   "RoomOrderNodes": [
     {"roomId":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},},
+    {"roomId":{"name":"rm_gameplay","path":"rooms/rm_gameplay/rm_gameplay.yy",},},
   ],
   "Folders": [
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Animation Curves","folderPath":"folders/Animation Curves.yy","order":12,},

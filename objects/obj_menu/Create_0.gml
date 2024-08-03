@@ -2,9 +2,12 @@
 // Você pode escrever seu código neste editor
 
 //VARIÁVEIS DO OBJETO
-main_menu_options = ["Jogar", "Configurações", "Sair"];
-spacing			  = 50;
-cursor			  = 0;
+main_menu_options	  = ["Jogar", "Configurações", "Sair"];
+spacing				  = 50;
+cursor				  = 0;
+open_settings_menu	  = false;
+settings_menu_options = ["Volume", "Tela Cheia", "Voltar"];
+show_popup			  = false;	
 		   
 #region FUNÇÕES
 
@@ -44,8 +47,9 @@ menu_mouse_navigation = function(_x1, _y1, _x2, _y2, _index) {
 }
 
 menu_keyboard_navigation = function(_array) {
-	var _up	  = keyboard_check_pressed(vk_up) || keyboard_check_pressed(ord("W")),
-		_down = keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"));
+	var _up	   = keyboard_check_pressed(vk_up) || keyboard_check_pressed(ord("W")),
+		_down  = keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S")),
+		_enter = keyboard_check_pressed(vk_enter) || mouse_check_button_pressed(mb_left);
 
 	if(_up) cursor -= 1;
 	if(_down) cursor += 1;
@@ -58,6 +62,32 @@ menu_keyboard_navigation = function(_array) {
 	
 	//if (cursor < 0) cursor = array_length(_array) - 1;
 	//if (cursor >= array_length(_array)) cursor = 0;
+	
+	//seleção do menu
+	if(_enter){
+		if(!open_settings_menu) main_menu_selection();
+	}
+}
+
+main_menu_selection = function() {
+	switch(cursor) {
+		case 0://Jogar
+			room_goto(rm_gameplay);
+			break;
+			
+		case 1://Configurações
+			open_settings_menu = true;
+			cursor			   = 0;
+			break;
+			
+		case 2://Sair
+			show_popup = true;
+			cursor	   = 0;
+			break;
+			
+		default:
+			break;
+	}
 }
 
 #endregion

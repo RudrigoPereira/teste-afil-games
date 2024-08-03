@@ -6,15 +6,16 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
 //VARIÁVEIS LOCAIS DO MENU
-var _menu_heigth = (array_length(main_menu_options) - 1) * spacing,
+var _array = open_settings_menu ? settings_menu_options : main_menu_options,
+	_menu_heigth = (array_length(_array) - 1) * spacing,
 	_x			 = display_get_gui_width() * 0.5,
 	_y			 = (display_get_gui_height() * 0.5) - (_menu_heigth * 0.5);
 				   
 //DESENHANDO O MENU
-draw_menu(_x, _y, main_menu_options);
+draw_menu(_x, _y, _array);
 
 //NAVEGAÇÃO COM O TECLADO
-menu_keyboard_navigation(main_menu_options);
+menu_keyboard_navigation(_array);
 
 //RESETANDO OS DRAW SET
 draw_set_halign(-1);
