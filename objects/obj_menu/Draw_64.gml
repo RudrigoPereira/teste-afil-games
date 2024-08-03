@@ -13,8 +13,22 @@ var _spacing	 = 50,
 
 //DESENHANDO O MENU
 for(var _i = 0; _i < array_length(main_menu_options); _i++) {
-	draw_set_font(fnt_menu);
+	if(cursor == _i) {
+		draw_set_font(fnt_cursor);
+		draw_set_color(c_red);
+		
+		var _padding = 5,
+			_x1		 = _x - (string_width(main_menu_options[_i]) * 0.5) - _padding,
+			_y1		 = _y - (string_height(main_menu_options[_i]) * 0.5) - _padding,
+			_x2		 = _x + (string_width(main_menu_options[_i]) * 0.5) + _padding,
+			_y2		 = _y + (string_height(main_menu_options[_i]) * 0.5) + _padding;
+			
+		draw_roundrect(_x1, _y1, _x2, _y2, true);
+	} else {
+		draw_set_font(fnt_menu);
+	}
 	
+	draw_set_color(c_white);
 	draw_text(_x, _y, main_menu_options[_i]);
 	_y += _spacing;
 }
@@ -23,3 +37,4 @@ for(var _i = 0; _i < array_length(main_menu_options); _i++) {
 draw_set_halign(-1);
 draw_set_valign(-1);
 draw_set_font(-1);
+draw_set_color(-1);

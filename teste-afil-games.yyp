@@ -4,6 +4,7 @@
   "name": "teste-afil-games",
   "resources": [
     {"id":{"name":"obj_menu","path":"objects/obj_menu/obj_menu.yy",},"order":0,},
+    {"id":{"name":"fnt_cursor","path":"fonts/fnt_cursor/fnt_cursor.yy",},"order":1,},
     {"id":{"name":"fnt_menu","path":"fonts/fnt_menu/fnt_menu.yy",},"order":0,},
     {"id":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},"order":0,},
   ],

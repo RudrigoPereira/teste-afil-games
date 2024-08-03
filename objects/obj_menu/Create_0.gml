@@ -3,5 +3,5 @@
 
 //VARIÁVEIS DO OBJETO
 main_menu_options = ["Jogar", "Configurações", "Sair"];
-
+cursor			  = 0;
 
