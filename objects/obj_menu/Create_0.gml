@@ -54,7 +54,7 @@ menu_mouse_navigation = function(_x1, _y1, _x2, _y2, _index) {
 	var _mouse_x		 = device_mouse_x_to_gui(0),
 		_mouse_y		 = device_mouse_y_to_gui(0),
 		_mouse_on_option = point_in_rectangle(_mouse_x, _mouse_y, _x1, _y1, _x2, _y2),
-		_left_btn = mouse_check_button_pressed(mb_left);
+		_left_btn		 = mouse_check_button_pressed(mb_left);
 	
 	//seleção do menu
 	if(_mouse_on_option) {
@@ -138,22 +138,35 @@ settings_menu_selection = function() {
 }
 
 draw_music_volume = function(_x1, _y, _y1, _x2, _y2, _padding) {
+	var _mouse_x = device_mouse_x_to_gui(0),
+		_mouse_y = device_mouse_y_to_gui(0),
+		_decrease_button = point_in_rectangle(_mouse_x, _mouse_y, _x1 - _padding - 35, _y1, _x1 + _padding, _y2),
+		_increase_button = point_in_rectangle(_mouse_x, _mouse_y, _x2 - _padding, _y1, _x2 + _padding + 35, _y2);
+	
 	if(open_music_volume) {
 		settings_menu_options[0] = "Volume " + string(round(music_volume * 100));
 		draw_triangle(_x1 - _padding - 25, _y, _x1 - _padding, _y1, _x1 - _padding, _y2, false);
 		draw_triangle(_x2 + _padding + 25, _y, _x2 + _padding, _y1, _x2 + _padding, _y2, false);
-		set_music_volume();
+		set_music_volume(_decrease_button, _increase_button);
+
 	} else {
 		settings_menu_options[0] = "Volume";
 	}
 }
 
-set_music_volume = function() {
-	var _left = keyboard_check(vk_left),
-		_right = keyboard_check(vk_right);
+set_music_volume = function(_decrease_button, _increase_button) {
+	var _left	  = keyboard_check(vk_left),
+		_right	  = keyboard_check(vk_right),
+		_left_btn = mouse_check_button(mb_left);
 	
 	if(_left) music_volume -= 0.01;
 	if(_right) music_volume += 0.01;
+	if(_decrease_button) {
+		if (_left_btn) music_volume -= 0.01;
+	}
+	if(_increase_button) {
+		if (_left_btn) music_volume += 0.01;
+	}
 	music_volume = clamp(music_volume, 0, 1);
 	
 	audio_sound_gain(music_menu, music_volume, 1000);

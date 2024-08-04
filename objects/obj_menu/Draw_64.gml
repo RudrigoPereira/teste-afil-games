@@ -6,7 +6,7 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
 //VARIÁVEIS LOCAIS DO MENU
-var _array = open_settings_menu ? settings_menu_options : main_menu_options,
+var _array		 = open_settings_menu ? settings_menu_options : main_menu_options,
 	_menu_heigth = (array_length(_array) - 1) * spacing,
 	_x			 = display_get_gui_width() * 0.5,
 	_y			 = (display_get_gui_height() * 0.5) - (_menu_heigth * 0.5);
