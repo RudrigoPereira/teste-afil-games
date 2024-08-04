@@ -14,9 +14,11 @@ music_menu			  = audio_play_sound(snd_menu, 1, true);
 
 ini_open("savedata.ini");
 music_volume  = ini_read_real("settings", "music_volume", audio_sound_get_gain(music_menu));
+fullscreen  = ini_read_real("settings", "fullscreen", window_get_fullscreen());
 ini_close();
 
 audio_sound_gain(music_menu, music_volume, 0);
+window_set_fullscreen(fullscreen);
 		   
 #region FUNÇÕES
 
@@ -127,7 +129,11 @@ settings_menu_selection = function() {
 			break;
 			
 		case 1: //Tela Cheia
-			window_set_fullscreen(!window_get_fullscreen());
+			fullscreen = !fullscreen
+			window_set_fullscreen(fullscreen);
+			ini_open("savedata.ini");
+			ini_write_real("settings", "fullscreen", fullscreen);
+			ini_close();
 			break;
 			
 		case 2: //Voltar
