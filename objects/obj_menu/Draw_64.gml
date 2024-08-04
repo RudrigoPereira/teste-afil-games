@@ -18,6 +18,11 @@ if(show_popup) {
 	draw_menu(_x, _y, _array);
 }
 
+//MOSTRANDO O VOLUME
+if(open_settings_menu) {
+	open_music_volume = cursor == 0 ? true : false;
+}
+
 //NAVEGAÇÃO COM O TECLADO
 menu_keyboard_navigation(_array);
 

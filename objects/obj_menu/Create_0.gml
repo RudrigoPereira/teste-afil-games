@@ -10,16 +10,17 @@ settings_menu_options = ["Volume", "Tela Cheia", "Voltar"];
 show_popup			  = false;	
 exit_options		  = ["Sim", "Não"];
 open_music_volume	  = false;
+music_menu			  = audio_play_sound(snd_menu, 1, true);
 
 ini_open("savedata.ini");
-//music_volume  = ini_read_real("settings", "music_volume", audio_sound_get_gain());
-is_fullscreen = ini_read_real("settings", "isFullscreen", window_get_fullscreen());
+music_volume  = ini_read_real("settings", "music_volume", audio_sound_get_gain(music_menu));
 ini_close();
-window_set_fullscreen(is_fullscreen);
+
+audio_sound_gain(music_menu, music_volume, 0);
 		   
 #region FUNÇÕES
 
-draw_menu = function(_x, _y, _array) {				   
+draw_menu = function(_x, _y, _array) {
 	for(var _i = 0; _i < array_length(_array); _i++) {
 		draw_set_font(fnt_cursor);
 		
@@ -35,6 +36,7 @@ draw_menu = function(_x, _y, _array) {
 			//destacando a opção onde está o cursor
 			draw_set_color(c_red);
 			draw_roundrect(_x1, _y1, _x2, _y2, true);
+			draw_music_volume(_x1, _y, _y1, _x2, _y2, _padding);
 		} else {
 			draw_set_font(fnt_menu);
 		}
@@ -121,20 +123,44 @@ main_menu_selection = function() {
 settings_menu_selection = function() {
 	switch(cursor) {
 		case 0: //Volume
-			open_music_volume = !open_music_volume;
+			open_music_volume = true;
 			break;
+			
 		case 1: //Tela Cheia
-			is_fullscreen = !is_fullscreen
-			window_set_fullscreen(is_fullscreen);
-			ini_open("savedata.ini");
-			ini_write_real("settings", "isFullscreen", is_fullscreen);
-			ini_close();
+			window_set_fullscreen(!window_get_fullscreen());
 			break;
+			
 		case 2: //Voltar
 			open_settings_menu = false;
 			cursor = 1;
 			break;
 	}
+}
+
+draw_music_volume = function(_x1, _y, _y1, _x2, _y2, _padding) {
+	if(open_music_volume) {
+		settings_menu_options[0] = "Volume " + string(round(music_volume * 100));
+		draw_triangle(_x1 - _padding - 25, _y, _x1 - _padding, _y1, _x1 - _padding, _y2, false);
+		draw_triangle(_x2 + _padding + 25, _y, _x2 + _padding, _y1, _x2 + _padding, _y2, false);
+		set_music_volume();
+	} else {
+		settings_menu_options[0] = "Volume";
+	}
+}
+
+set_music_volume = function() {
+	var _left = keyboard_check(vk_left),
+		_right = keyboard_check(vk_right);
+	
+	if(_left) music_volume -= 0.01;
+	if(_right) music_volume += 0.01;
+	music_volume = clamp(music_volume, 0, 1);
+	
+	audio_sound_gain(music_menu, music_volume, 1000);
+	
+	ini_open("savedata.ini");
+	ini_write_real("settings", "music_volume", music_volume);
+	ini_close();
 }
 
 draw_exit_popup = function(_x, _y) {
@@ -146,7 +172,9 @@ draw_exit_popup = function(_x, _y) {
 	
     draw_roundrect(_x1, _y1, _x2, _y2, true);
 	draw_set_color(c_dkgray);
+	draw_set_alpha(0.5);
     draw_roundrect(_x1, _y1, _x2, _y2, false);
+	draw_set_alpha(1);
     draw_set_color(c_white);
 	draw_set_font(fnt_menu);
     draw_text(_x, _y - (spacing * 1.5), "Você deseja sair?");
