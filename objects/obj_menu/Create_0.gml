@@ -15,7 +15,7 @@ music_menu			  = audio_play_sound(snd_menu, 1, true);
 //Carregando as configurações salvas
 ini_open("savedata.ini");
 music_volume  = ini_read_real("settings", "music_volume", audio_sound_get_gain(music_menu));
-fullscreen  = ini_read_real("settings", "fullscreen", window_get_fullscreen());
+fullscreen	  = ini_read_real("settings", "fullscreen", window_get_fullscreen());
 ini_close();
 
 //APLICANDO AS CONFIGURAÇÕES
@@ -177,7 +177,7 @@ set_music_volume = function(_decrease_button, _increase_button) {
 	}
 	music_volume = clamp(music_volume, 0, 1);
 	
-	audio_sound_gain(music_menu, music_volume, 1000);
+	audio_sound_gain(music_menu, music_volume, 0);
 	
 	ini_open("savedata.ini");
 	ini_write_real("settings", "music_volume", music_volume);
