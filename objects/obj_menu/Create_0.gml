@@ -12,11 +12,13 @@ exit_options		  = ["Sim", "Não"];
 open_music_volume	  = false;
 music_menu			  = audio_play_sound(snd_menu, 1, true);
 
+//Carregando as configurações salvas
 ini_open("savedata.ini");
 music_volume  = ini_read_real("settings", "music_volume", audio_sound_get_gain(music_menu));
 fullscreen  = ini_read_real("settings", "fullscreen", window_get_fullscreen());
 ini_close();
 
+//APLICANDO AS CONFIGURAÇÕES
 audio_sound_gain(music_menu, music_volume, 0);
 window_set_fullscreen(fullscreen);
 		   
@@ -38,7 +40,7 @@ draw_menu = function(_x, _y, _array) {
 			//destacando a opção onde está o cursor
 			draw_set_color(c_red);
 			draw_roundrect(_x1, _y1, _x2, _y2, true);
-			draw_music_volume(_x1, _y, _y1, _x2, _y2, _padding);
+			buttons_music_volume(_x1, _y1, _x2, _y2, _y, _padding);
 		} else {
 			draw_set_font(fnt_menu);
 		}
@@ -80,12 +82,12 @@ menu_keyboard_navigation = function(_array) {
 
 	if(_up) cursor -= 1;
 	if(_down) cursor += 1;
+	
 	cursor = clamp(cursor, 0, array_length(_array) - 1);
 	
-	/*
-		Caso queira um efeito de carrossel no menu descomente o código abaixo
-		E comente a linha anterior com a função CLAMP
-	*/
+	/* Caso queira um efeito de carrossel no menu, 
+	   descomente o código abaixo
+	   e comente a linha anterior com a função CLAMP */
 	
 	//if (cursor < 0) cursor = array_length(_array) - 1;
 	//if (cursor >= array_length(_array)) cursor = 0;
@@ -131,6 +133,7 @@ settings_menu_selection = function() {
 		case 1: //Tela Cheia
 			fullscreen = !fullscreen
 			window_set_fullscreen(fullscreen);
+			//Salvando se está em tela cheia ou não
 			ini_open("savedata.ini");
 			ini_write_real("settings", "fullscreen", fullscreen);
 			ini_close();
@@ -143,7 +146,7 @@ settings_menu_selection = function() {
 	}
 }
 
-draw_music_volume = function(_x1, _y, _y1, _x2, _y2, _padding) {
+buttons_music_volume = function(_x1, _y1, _x2, _y2, _y3, _padding) {
 	var _mouse_x = device_mouse_x_to_gui(0),
 		_mouse_y = device_mouse_y_to_gui(0),
 		_decrease_button = point_in_rectangle(_mouse_x, _mouse_y, _x1 - _padding - 35, _y1, _x1 + _padding, _y2),
@@ -151,18 +154,17 @@ draw_music_volume = function(_x1, _y, _y1, _x2, _y2, _padding) {
 	
 	if(open_music_volume) {
 		settings_menu_options[0] = "Volume " + string(round(music_volume * 100));
-		draw_triangle(_x1 - _padding - 25, _y, _x1 - _padding, _y1, _x1 - _padding, _y2, false);
-		draw_triangle(_x2 + _padding + 25, _y, _x2 + _padding, _y1, _x2 + _padding, _y2, false);
+		draw_triangle(_x1 - _padding - 25, _y3, _x1 - _padding, _y1, _x1 - _padding, _y2, false);
+		draw_triangle(_x2 + _padding + 25, _y3, _x2 + _padding, _y1, _x2 + _padding, _y2, false);
 		set_music_volume(_decrease_button, _increase_button);
-
 	} else {
 		settings_menu_options[0] = "Volume";
 	}
 }
 
 set_music_volume = function(_decrease_button, _increase_button) {
-	var _left	  = keyboard_check(vk_left),
-		_right	  = keyboard_check(vk_right),
+	var _left	  = keyboard_check(vk_left) || keyboard_check(ord("A")),
+		_right	  = keyboard_check(vk_right) || keyboard_check(ord("D")),
 		_left_btn = mouse_check_button(mb_left);
 	
 	if(_left) music_volume -= 0.01;
